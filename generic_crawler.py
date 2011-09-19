@@ -34,17 +34,17 @@ if __name__ == '__main__':
     parser.read(config_file)
 
     dataDirectory = parser.get(crawler_config, 'directory')
-    
+
     if not (os.path.exists(dataDirectory)):
         os.mkdir(dataDirectory)
-    
+
     time_per_file = parser.getint(crawler_config, 'time_length')
     username = parser.get(crawler_config, 'username')
     password = parser.get(crawler_config, 'password')
     crawler_type = parser.get(crawler_config, 'type')
     crawler_id = parser.get(crawler_config, 'id')
 
-    logging.basicConfig(filename = crawler_id + '.log', level = logging.ERROR)
+    logging.basicConfig(filename=crawler_id + '.log', level=logging.ERROR)
 
     stream_url = parser.get(crawler_config, 'stream_url')
 
@@ -60,16 +60,16 @@ if __name__ == '__main__':
 
         currentDate = datetime.now()
         dateStr = date_to_fname_string(currentDate)
-        output = codecs.open(dataDirectory + '/' + dateStr + '-Tweets.txt', 
+        output = codecs.open(dataDirectory + '/' + dateStr + '-Tweets.txt',
                               encoding='utf-8', mode='w+')
         ofh = OutputFileHandler()
         ofh.set(output)
 
         try:
-            stream  = Stream(stream_url, username, password, on_receive, 
-                              initial_params = trackTerms, filter_type = crawler_type)
+            stream = Stream(stream_url, username, password, on_receive,
+                              initial_params=trackTerms, filter_type=crawler_type)
             stream.start()
-            time.sleep(time_per_file)	
+            time.sleep(time_per_file)
             stream.stop()
             ofh.close()
         except Exception, err:
