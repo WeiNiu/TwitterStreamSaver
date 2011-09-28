@@ -1,3 +1,5 @@
+This code was a personal project (i.e. I made it work to suit my needs, with little consideration that others beyond me would use it). That being said, any improvements would be appreciated. 
+
 Run with:
 
 python generic_crawler.py crawler_config.ini Sample
