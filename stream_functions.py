@@ -8,8 +8,6 @@ Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 """
 
 import logging
-import simplejson as json
-
 
 class Buffer:
 
@@ -53,7 +51,6 @@ def on_receive(data):
     The generic on_receive function. Writes each
     tweet to file
     """
-
     fl_output = OutputFileHandler()
     buffer = Buffer()
     buffer.append(data)
@@ -72,19 +69,6 @@ def on_receive(data):
         buffer.empty()
 
 
-def date_to_fname_string(date):
-    """
-    Takes a datetime object and returns a string.
-    Used for creating the file name
-    """
-
-    if date.minute > 9:
-        dateStr = str(date.day) + "_" + str(date.month) + "_" + \
-                  str(date.year) + "_" + str(date.hour) + ":" + \
-                  str(date.minute)
-    else:
-        dateStr = str(date.day) + "_" + str(date.month) + "_" + \
-                  str(date.year) + "_" + str(date.hour) + ":0" + \
-                  str(date.minute)
-
-    return dateStr
+def date_to_fname_string(file_date, data_type):
+    fname = file_date.strftime(data_type + ".%Y-%m-%d_%H-%M")
+    return fname

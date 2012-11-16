@@ -12,8 +12,6 @@ import os
 import codecs
 import time
 import logging
-import traceback
-import simplejson as json
 from datetime import datetime
 from basestream import Stream
 from ConfigParser import SafeConfigParser
@@ -59,8 +57,8 @@ if __name__ == '__main__':
     while True:
 
         currentDate = datetime.now()
-        dateStr = date_to_fname_string(currentDate)
-        output = codecs.open(dataDirectory + '/' + dateStr + '-Tweets.txt',
+        dateStr = date_to_fname_string(currentDate, crawler_config.lower())
+        output = codecs.open(dataDirectory + '/' + dateStr + '.txt',
                               encoding='utf-8', mode='w+')
         ofh = OutputFileHandler()
         ofh.set(output)
@@ -68,13 +66,17 @@ if __name__ == '__main__':
         try:
             stream = Stream(stream_url, username, password, on_receive,
                               initial_params=trackTerms, filter_type=crawler_type)
+            print 'Stream Start'
             stream.start()
             time.sleep(time_per_file)
             stream.stop()
+            print 'Stream Stop'
             ofh.close()
         except Exception, err:
+            print 'Error'
             logging.error(str(datetime.now()) + ':' + str(err))
             try:
+                print 'Error'
                 stream.stop()
                 ofh.close()
             except Exception, err:
