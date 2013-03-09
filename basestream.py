@@ -21,7 +21,6 @@ class Stream:
         self.params = initial_params
         self.filter_type = filter_type
         self.conn = pycurl.Curl()
-        print 'Stream Initiated'
 
     def resetFilterParameters(self, params):
         self.params = params

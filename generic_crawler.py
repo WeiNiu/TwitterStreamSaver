@@ -11,6 +11,7 @@ import sys
 import os
 import codecs
 import time
+import json
 import logging
 from datetime import datetime
 from basestream import Stream
@@ -73,10 +74,8 @@ if __name__ == '__main__':
             print 'Stream Stop'
             ofh.close()
         except Exception, err:
-            print 'Error'
             logging.error(str(datetime.now()) + ':' + str(err))
             try:
-                print 'Error'
                 stream.stop()
                 ofh.close()
             except Exception, err:

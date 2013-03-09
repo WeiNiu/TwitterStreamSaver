@@ -7,8 +7,6 @@ Created by Brian Eoff on 2011-02-21.
 Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 """
 
-import logging
-
 class Buffer:
 
     buffer_text = ''
@@ -17,7 +15,7 @@ class Buffer:
         pass
 
     def append(self, buffer_str):
-        self.__class__.buffer_text = self.__class__.buffer_text + buffer_str
+        self.__class__.buffer_text += buffer_str
 
     def get(self):
         return self.__class__.buffer_text
@@ -58,17 +56,11 @@ def on_receive(data):
     if data.endswith('\r\n'):
         output_txt = buffer.get().strip()
         if len(output_txt) > 0:
-            try:
-                #json.loads(output_text)
-                fl_output.write(output_txt)
-                fl_output.write('\n')
-                fl_output.flush()
-            except:
-                logging.warning('Unable to parse JSON: ' + output_txt + '\n')
+            fl_output.write("%s\n" % output_txt)
+            fl_output.flush()
 
         buffer.empty()
 
 
 def date_to_fname_string(file_date, data_type):
-    fname = file_date.strftime(data_type + ".%Y-%m-%d_%H-%M")
-    return fname
+    return file_date.strftime(data_type + ".%Y-%m-%d_%H-%M")
